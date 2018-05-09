@@ -1,0 +1,47 @@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Index</h2>
+<script>
+    $(function () {
+        $("#nextBtn").on('click', function () {
+            var tmp = $("#NextNumber");
+            tmp.html('');
+            getNextNumber();
+            //Uncomment the following codes to reset the view of the numbers. (So next position numbers aren't out of date.)
+            //1. ShowItems()
+        });
+        ShowItems()
+    });
+    function ShowItems() {
+        var url = "/api/Calc";
+        $.get(url, function (data) {
+            var tmp = $("#Items");
+            //2. tmp[0].innerHTML = "";
+            $.each(data, function () {
+                tmp.append("<li>" + this.eventId + "</li>");
+            });
+        });
+    }
+    function getNextNumber() {
+        var request = $('#Number').val();
+        var url = "/api/Calc?Postion=" + request;
+        $.get(url, function (data) {
+            var tmp = $("#NextNumber");
+            tmp.html(data);
+        });
+    }
+</script>
+<div>
+    <input type="number" id="Number" />
+    <button id="nextBtn">Next Number</button>
+    <p id="NextNumber">
+
+    </p>
+</div>
+<div id="Items">
+
+</div>
